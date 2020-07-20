@@ -5,7 +5,7 @@ public class Test {
 
         //new 是向堆空间申请内存,
         // 一旦代码执行完局部变量list会被销毁,没有变量指向 new ArrayList,new ArrayList会被垃圾回收期回收
-        ArrayList list = new ArrayList();
+      /*  ArrayList<Integer> list = new ArrayList();
         list.add(10);
         list.add(50);
         list.add(90);
@@ -20,6 +20,14 @@ public class Test {
         list.add(2,100);
         System.out.println(list);
 
-        Asserts.test(list.get(0)==10);
+        Asserts.test(list.get(0)==10);*/
+
+
+      //测试泛型动态数组
+        ArrayList<Person> persons = new ArrayList<>();
+        persons.add(new Person("jack",10));
+        persons.add(new Person("james",20));
+        persons.add(new Person("rose",30));
+        System.out.println(persons);
     }
 }
