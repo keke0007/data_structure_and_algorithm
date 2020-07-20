@@ -32,6 +32,7 @@ public class ArrayList {
 
     /**
      * 元素的数量
+     *
      * @return
      */
     public int size() {
@@ -40,6 +41,7 @@ public class ArrayList {
 
     /**
      * 是否为空
+     *
      * @return
      */
     public boolean isEmpty() {
@@ -48,43 +50,48 @@ public class ArrayList {
 
     /**
      * 是否包含某个元素
+     *
      * @param element
      * @return
      */
     public boolean contains(int element) {
-        return indexOf(element)!=ELEMENT_NOT_FOUND;
+        return indexOf(element) != ELEMENT_NOT_FOUND;
     }
 
     /**
      * 添加元素到尾部
+     *
      * @param element
      */
     public void add(int element) {
-
+       /* //ps ++在前是先运算再赋值 ++在后是先赋值再运算
+        elements[size++] = element;
+        //等价于
+        //element[size] = element;
+        //size++;*/
+        add(size, element);
     }
 
     /**
      * 获取index位置的元素
+     *
      * @param index
      * @return
      */
     public int get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index = " + index+ ", Size = " + size );
-        }
+
         return elements[index];
     }
 
     /**
      * 设置index位置的元素
+     *
      * @param index
      * @param element
      * @return 原来的元素ֵ
      */
-    public int set(int index,int element) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index = " + index+ ", Size = " + size );
-        }
+    public int set(int index, int element) {
+        rangeCheck(index);
         int old = elements[index];
         elements[index] = element;
         return old;
@@ -92,47 +99,80 @@ public class ArrayList {
 
     /**
      * 在index位置插入一个元素
+     *
      * @param index
      * @param element
      */
     public void add(int index, int element) {
+        rangeCheckForAdd(index);
+        ensureCapacity(size + 1);
+        for (int i = size - 1; i >= index; i--) {
+            elements[i + 1] = elements[i];
+        }
+        elements[index] = element;
+        size++;
     }
 
     /**
      * 删除index位置的元素
+     *
      * @param index
      * @return
      */
     public int remove(int index) {
-        return 0;
+        rangeCheck(index);
+        int old = elements[index];
+        for (int i = index + 1; i < size; i++) {
+            elements[i - 1] = elements[i];
+        }
+        size--;
+        return old;
     }
 
     /**
      * 查看元素的索引
+     *
      * @param element
      * @return
      */
     public int indexOf(int element) {
         for (int i = 0; i < size; i++) {
-            if (elements[i]==element) return i;
+            if (elements[i] == element) return i;
         }
         return ELEMENT_NOT_FOUND;
     }
 
     /**
      * 保证要有capacity的容量
+     *
      * @param capacity
      */
     private void ensureCapacity(int capacity) {
+        int oldCapacity = elements.length;
+        if (oldCapacity >= capacity) return;
+        int newCapacity = oldCapacity + (oldCapacity >> 1);
+        int[] newElements = new int[newCapacity];
+        for (int i = 0; i < size; i++) {
+            newElements[i] = elements[i];
+        }
+        elements = newElements;
+        System.out.println("旧容量为: " + oldCapacity + "扩容为: " + newCapacity);
     }
 
     private void outOfBounds(int index) {
+        throw new IndexOutOfBoundsException("Index = " + index + ", Size = " + size);
     }
 
     private void rangeCheck(int index) {
+        if (index < 0 || index >= size) {
+            outOfBounds(index);
+        }
     }
 
     private void rangeCheckForAdd(int index) {
+        if (index < 0 || index > size) {
+            outOfBounds(index);
+        }
     }
 
     @Override
@@ -146,7 +186,7 @@ public class ArrayList {
             }
 
             string.append(elements[i]);
-
+//  ps: 与上面的if判断相比需要多做一次运算,效率没有上面的方法高
 //			if (i != size - 1) {
 //				string.append(", ");
 //			}

@@ -23,6 +23,12 @@ public class Demo01_Fibonacci_Number {
                 System.out.println(String.format("求第%d个数的斐波那契数为 : %d", n, fib2(n)));
             }
         });
+        TimeTool.check("fib3", new TimeTool.Task() {
+            @Override
+            public void execute() {
+                System.out.println(String.format("求第%d个数的斐波那契数为 : %d", n, fib3(n)));
+            }
+        });
     }
 
     /**
@@ -54,4 +60,23 @@ public class Demo01_Fibonacci_Number {
         }
         return second;
     }
+
+    /**
+     * 方法三 变量优化
+     */
+    public static int fib3(int n) {
+        if (n <= 1) return n;
+        int first = 0;
+        int second = 1;
+        //第n个斐波那契数需要循环n-1次
+        while (n-- > 1) {
+            second += first;
+            first = second - first;
+        }
+        return second;
+    }
+
+    /**
+     * 方法四 可以用数学里面的线性代数方程公式
+     */
 }
