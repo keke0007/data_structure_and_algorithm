@@ -16,4 +16,21 @@ public class Person {
                 ", age=" + age +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj==null) return false;
+        if (obj instanceof Person) {
+            Person person = (Person) obj;
+            return this.age == person.age;
+        }
+        return false;
+    }
+
+    //GC垃圾回收时会调用此方法
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("person finalize...");
+        super.finalize();
+    }
 }

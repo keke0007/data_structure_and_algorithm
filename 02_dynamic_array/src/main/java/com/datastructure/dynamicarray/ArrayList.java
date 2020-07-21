@@ -27,6 +27,10 @@ public class ArrayList<E> {
      * 清除所有元素
      */
     public void clear() {
+        //对象数组,数组存储的是内存地址
+        for (int i = 0; i < size; i++) {
+            elements[i] = null;
+        }
         size = 0;
     }
 
@@ -122,10 +126,15 @@ public class ArrayList<E> {
     public E remove(int index) {
         rangeCheck(index);
         E old = elements[index];
+        //优化是减少运算
         for (int i = index + 1; i < size; i++) {
             elements[i - 1] = elements[i];
         }
-        size--;
+//        size--;
+////        //让最后一位内存地址为null
+////        elements[size] = null;
+//        等价于 --在前先运算再赋值
+        elements[--size] = null;
         return old;
     }
 
@@ -136,8 +145,14 @@ public class ArrayList<E> {
      * @return
      */
     public int indexOf(E element) {
-        for (int i = 0; i < size; i++) {
-            if (elements[i] == element) return i;
+        if (element == null) {
+            for (int i = 0; i < size; i++) {
+                if (elements[i] == null) return i;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (elements[i] == element) return i;
+            }
         }
         return ELEMENT_NOT_FOUND;
     }

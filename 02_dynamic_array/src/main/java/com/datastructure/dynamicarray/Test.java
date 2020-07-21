@@ -28,6 +28,15 @@ public class Test {
         persons.add(new Person("jack",10));
         persons.add(new Person("james",20));
         persons.add(new Person("rose",30));
+//        persons.clear();
+        //提醒GC回收内存
+//        System.gc();
+
+        //存储null值
+        persons.add(null);
         System.out.println(persons);
+
+        //数组拷贝
+//        System.arraycopy();  系统级别的拷贝
     }
 }
